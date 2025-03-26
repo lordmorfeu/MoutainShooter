@@ -1,4 +1,3 @@
-
 from code.Const import ENTITY_SPEED
 from code.Entity import Entity
 
