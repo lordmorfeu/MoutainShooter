@@ -11,29 +11,29 @@ from code.Score import Score
 class Game:
     def __init__(self):
         pygame.init()
-        self.window = pygame.display.set_mode(size=(WIN_WIDTH, WIN_HEIGHT))
+        self.window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 
     def run(self):
         while True:
             score = Score(self.window)
             menu = Menu(self.window)
-            menu_return = menu.run()
+            menu_choice = menu.run()
 
-            if menu_return in [MENU_OPTION[0], MENU_OPTION[1], MENU_OPTION[2]]:
-                player_score = [0, 0]  # [Player1, Player2]
-                level = Level(self.window, 'Level1', menu_return, player_score)
-                leve_return = level.run(player_score)
-                if leve_return:
-                    level = Level(self.window, 'Level2', menu_return, player_score)
-                    leve_return = level.run(player_score)
-                    if leve_return:
-                        score.save(menu_return, player_score)
+            if menu_choice in MENU_OPTION[:3]:
+                player_scores = [0, 0]  # [Player1, Player2]
+                level = Level(self.window, 'Level1', menu_choice, player_scores)
+                level_result = level.run(player_scores)
 
-            elif menu_return == MENU_OPTION[3]:
+                if level_result:
+                    level = Level(self.window, 'Level2', menu_choice, player_scores)
+                    level_result = level.run(player_scores)
+
+                    if level_result:
+                        score.save(menu_choice, player_scores)
+
+            elif menu_choice == MENU_OPTION[3]:
                 score.show()
+            elif menu_choice == MENU_OPTION[4]:
+                pygame.quit()
+                quit()
 
-            elif menu_return == MENU_OPTION[4]:
-                pygame.quit()  # Close Window
-                quit()  # end pygame
-            else:
-                pass
